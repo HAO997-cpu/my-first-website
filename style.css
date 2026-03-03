@@ -1,0 +1,89 @@
+/* 全局基础设置，不用改 */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "PingFang SC", "微软雅黑", Arial, sans-serif;
+}
+
+/* 页面背景颜色，之后可以自己改色值 */
+body {
+    background-color: #f5f7fa;
+    color: #333;
+    line-height: 1.6;
+}
+
+/* 内容容器，让页面居中，不贴屏幕边缘 */
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 30px 20px;
+}
+
+/* 大标题样式 */
+h1 {
+    text-align: center;
+    color: #2563eb;
+    font-size: 36px;
+    margin-bottom: 10px;
+}
+
+/* 自我介绍样式 */
+.intro {
+    text-align: center;
+    font-size: 18px;
+    color: #666;
+    margin-bottom: 30px;
+}
+
+/* 图片区域样式 */
+.img-box {
+    width: 100%;
+    border-radius: 10px;
+    overflow: hidden;
+    margin-bottom: 30px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.img-box img {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+/* 内容板块样式 */
+.content {
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+}
+
+.content h2 {
+    color: #2563eb;
+    margin-bottom: 10px;
+    font-size: 24px;
+}
+
+.content p {
+    font-size: 16px;
+    color: #333;
+}
+
+/* 底部样式 */
+.footer {
+    text-align: center;
+    margin-top: 40px;
+    padding-top: 20px;
+    border-top: 1px solid #ddd;
+    color: #666;
+    font-size: 14px;
+}
+
+/* 适配手机屏幕，不用改 */
+@media (max-width: 768px) {
+    h1 {
+        font-size: 28px;
+    }
+}
