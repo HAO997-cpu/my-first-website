@@ -1,40 +1,210 @@
 <!DOCTYPE html>
-<!-- 声明这是一个网页文件 -->
 <html lang="zh-CN">
 <head>
-    <!-- 网页的基础设置 -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- 网页标题：显示在浏览器标签上的文字 -->
-    <title>我的个人网站</title>
-    <!-- 引入美化页面的样式文件 -->
+    <title>AI聚合平台 | 一站式调用主流大模型</title>
+    <!-- 引入样式和图标 -->
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <!-- 粒子背景（科技感加分项） -->
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
 </head>
 <body>
-    <!-- 页面主体内容，所有你能看到的东西都在这里 -->
-    <div class="container">
-        <!-- 1. 大标题 -->
-        <h1>你好，我是网站的主人</h1>
-        <!-- 2. 副标题/自我介绍 -->
-        <p class="intro">这是我用MacBook Air做的第一个网站，超有成就感！</p>
-        <!-- 3. 图片区域 -->
-        <div class="img-box">
-            <!-- 这里可以换成你自己的图片，先放一张免费的示例图 -->
-            <img src="https://picsum.photos/800/400" alt="我的配图">
+    <!-- 粒子背景容器 -->
+    <div id="particles-js"></div>
+
+    <!-- 顶部导航栏（玻璃拟态） -->
+    <header class="header">
+        <div class="container">
+            <div class="logo">
+                <span class="logo-icon"><i class="bi bi-brain"></i></span>
+                <span class="logo-text">AI聚合引擎</span>
+            </div>
+            <nav class="nav">
+                <a href="#home" class="nav-link active">首页</a>
+                <a href="#models" class="nav-link">模型库</a>
+                <a href="#help" class="nav-link">使用帮助</a>
+            </nav>
         </div>
-        <!-- 4. 内容板块 -->
-        <div class="content">
-            <h2>关于我</h2>
-            <p>我是一个新手，正在学习做网站，接下来我要把这个网站改成AI工具聚合平台！</p>
+    </header>
+
+    <!-- 核心操作区 -->
+    <main class="main container" id="home">
+        <!-- 模型选择栏 -->
+        <div class="model-tab">
+            <div class="model-tab__label">选择AI模型：</div>
+            <div class="model-tab__list">
+                <button class="model-btn active" data-model="nanobanana">NanoBanana</button>
+                <button class="model-btn" data-model="seedance2">Seedance2.0</button>
+                <button class="model-btn" data-model="gemini3">Gemini3</button>
+                <!-- 新增模型只需添加此按钮，后续在JS中配置API即可 -->
+                <button class="model-btn" data-model="custom">自定义模型</button>
+            </div>
         </div>
-        <div class="content">
-            <h2>我的爱好</h2>
-            <p>学习新东西、折腾AI、探索各种好玩的技术</p>
+
+        <!-- 输入面板（玻璃拟态+渐变边框） -->
+        <div class="input-panel">
+            <!-- 输入类型切换 -->
+            <div class="input-type">
+                <button class="type-btn active" data-type="text"><i class="bi bi-file-text"></i> 文本输入</button>
+                <button class="type-btn" data-type="image"><i class="bi bi-image"></i> 图片输入</button>
+            </div>
+
+            <!-- 文本输入区 -->
+            <div class="input-wrap text-input active">
+                <textarea id="prompt-input" placeholder="请输入你的需求...
+示例1：生成一篇科技产品推广文案（NanoBanana）
+示例2：基于图片生成动态舞蹈视频描述（Seedance2.0）
+示例3：分析行业趋势并生成可视化建议（Gemini3）"></textarea>
+            </div>
+
+            <!-- 图片输入区（默认隐藏） -->
+            <div class="input-wrap image-input">
+                <div class="upload-box">
+                    <input type="file" id="image-upload" accept="image/*">
+                    <div class="upload-placeholder">
+                        <i class="bi bi-cloud-upload"></i>
+                        <p>点击上传图片或拖放至此</p>
+                        <p class="tip">支持JPG/PNG/WEBP格式，单张≤10MB</p>
+                    </div>
+                    <div class="preview-box hidden">
+                        <img id="image-preview" src="" alt="预览图">
+                        <button class="remove-img"><i class="bi bi-x"></i></button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 参数调节区（科技感滑块） -->
+            <div class="params-panel">
+                <div class="param-item">
+                    <label for="temperature">创意度 (0-1)</label>
+                    <div class="param-slider">
+                        <input type="range" id="temperature" min="0" max="1" step="0.1" value="0.7">
+                        <span class="param-value" id="temp-value">0.7</span>
+                    </div>
+                </div>
+                <div class="param-item">
+                    <label for="max-tokens">生成长度</label>
+                    <div class="param-slider">
+                        <input type="range" id="max-tokens" min="100" max="2000" step="100" value="1000">
+                        <span class="param-value" id="tokens-value">1000</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 操作按钮 -->
+            <div class="action-btns">
+                <button id="submit-btn" class="btn primary-btn">
+                    <i class="bi bi-rocket"></i> 立即生成
+                </button>
+                <button id="clear-btn" class="btn secondary-btn">
+                    <i class="bi bi-trash"></i> 清空内容
+                </button>
+            </div>
         </div>
-        <!-- 5. 底部联系方式 -->
-        <div class="footer">
-            <p>联系我：xxx@qq.com | 我的小红书：xxx</p>
+
+        <!-- 加载状态（科技感动效） -->
+        <div class="loading-wrap hidden">
+            <div class="loading-spinner"></div>
+            <p>AI正在处理中...</p>
         </div>
-    </div>
+
+        <!-- 输出展示区 -->
+        <div class="output-panel">
+            <div class="output-header">
+                <h3>生成结果</h3>
+                <div class="output-actions">
+                    <button class="action-btn" id="copy-btn"><i class="bi bi-clipboard"></i> 复制</button>
+                    <button class="action-btn" id="download-btn"><i class="bi bi-download"></i> 下载</button>
+                </div>
+            </div>
+            <div class="output-content" id="output-content">
+                <div class="empty-state">
+                    <i class="bi bi-lightbulb"></i>
+                    <p>选择模型并输入需求，点击「立即生成」查看结果</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- 模型介绍区 -->
+    <section class="models-section container" id="models">
+        <h2 class="section-title">模型库</h2>
+        <div class="models-grid">
+            <div class="model-card">
+                <div class="model-card__icon"><i class="bi bi-pencil-square"></i></div>
+                <h3>NanoBanana</h3>
+                <p>字节轻量级AI模型，擅长文本生成、创意文案、短内容创作，响应速度快</p>
+            </div>
+            <div class="model-card">
+                <div class="model-card__icon"><i class="bi bi-film"></i></div>
+                <h3>Seedance2.0</h3>
+                <p>专注动态视觉生成，支持图片转舞蹈、视频脚本创作、视觉特效描述</p>
+            </div>
+            <div class="model-card">
+                <div class="model-card__icon"><i class="bi bi-braces"></i></div>
+                <h3>Gemini3</h3>
+                <p>谷歌多模态大模型，擅长复杂逻辑分析、多语言创作、数据可视化建议</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- 帮助区 -->
+    <section class="help-section container" id="help">
+        <h2 class="section-title">使用帮助</h2>
+        <div class="help-list">
+            <div class="help-item">
+                <h4>如何接入自定义模型？</h4>
+                <p>在script.js的API_CONFIG中添加模型配置，填写API地址、请求头、参数格式即可</p>
+            </div>
+            <div class="help-item">
+                <h4>图片输入支持哪些场景？</h4>
+                <p>Seedance2.0支持图片转动态舞蹈描述，Gemini3支持图片内容分析、图文结合创作</p>
+            </div>
+            <div class="help-item">
+                <h4>生成结果如何保存？</h4>
+                <p>点击「复制」可复制文本内容，「下载」可将结果保存为TXT文件（图片类结果支持下载原图）</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- 底部 -->
+    <footer class="footer">
+        <div class="container">
+            <p>AI聚合引擎 © 2026 | 一站式调用主流AI大模型</p>
+        </div>
+    </footer>
+
+    <!-- 核心交互逻辑 -->
+    <script src="script.js"></script>
+    <!-- 粒子背景初始化 -->
+    <script>
+        // 粒子背景配置（科技感动效）
+        particlesJS('particles-js', {
+            particles: {
+                number: { value: 80, density: { enable: true, value_area: 800 } },
+                color: { value: ['#4F46E5', '#06B6D4', '#8B5CF6'] },
+                shape: { type: 'circle' },
+                opacity: { value: 0.1, random: true },
+                size: { value: 3, random: true },
+                line_linked: { enable: true, distance: 150, color: '#4F46E5', opacity: 0.2, width: 1 },
+                move: { enable: true, speed: 1, direction: 'none', random: true, straight: false, out_mode: 'out', bounce: false }
+            },
+            interactivity: {
+                detect_on: 'canvas',
+                events: {
+                    onhover: { enable: true, mode: 'grab' },
+                    onclick: { enable: true, mode: 'push' },
+                    resize: true
+                },
+                modes: {
+                    grab: { distance: 140, line_linked: { opacity: 0.5 } },
+                    push: { particles_nb: 4 }
+                }
+            },
+            retina_detect: true
+        });
+    </script>
 </body>
 </html>
